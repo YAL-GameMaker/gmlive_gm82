@@ -1,0 +1,8 @@
+|scr_test
++GMLive
+	|live_init
+	|live_update
+	|live_call
+	|live_void
++tools
+	|trace
