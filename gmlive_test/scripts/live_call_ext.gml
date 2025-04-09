@@ -1,14 +1,14 @@
-/// (script, ...args)
-if (!ds_grid_get(global.__live_script_has_event, argument[0], 0)) return false;
+/// (script)
+if (!ds_grid_get(global.__live_script_has_event, argument0, 0)) return false;
 
 // store args
 var _prev_argument_count; _prev_argument_count = global.__live_argument_count;
-global.__live_argument_count = argument_count - 1;
+global.__live_argument_count = live_argument_count;
 var _prev_argument;
 var i; i = 0;
-repeat (argument_count - 1) {
+repeat (live_argument_count) {
     _prev_argument[i] = global.__live_argument[i];
-    global.__live_argument[i] = argument[i + 1];
+    global.__live_argument[i] = live_argument[i];
     i += 1;
 }
 

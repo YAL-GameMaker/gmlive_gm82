@@ -24,7 +24,7 @@ public class LiveFileSection {
 						var till = q.pos;
 						q.skipDefine();
 						q.skipSpaces();
-						var name = q.readIdent();
+						var name = q.readIdent(true);
 						if (name == null) continue;
 						if (sectionName != null) {
 							var snip = q.slice(start, till);
@@ -32,6 +32,7 @@ public class LiveFileSection {
 							result.Add(section);
 						}
 						sectionName = name;
+						q.skipLine();
 						start = q.pos;
 						continue;
 					} else q.skip();
@@ -62,5 +63,8 @@ public class LiveFileSection {
 			result.Add(section);
 		}
 		return result;
+	}
+	public override string ToString() {
+		return $"LiveFileSection(\"{name}\", <gml>{code}</gml>)";
 	}
 }

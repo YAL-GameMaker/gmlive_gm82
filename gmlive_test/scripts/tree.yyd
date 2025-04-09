@@ -1,8 +1,11 @@
-|scr_test
 +GMLive
 	|live_init
 	|live_update
+	|live_never
 	|live_call
-	|live_void
+	|live_call_ext
 +tools
 	|trace
++tests
+	|scr_sum
+	|scr_test

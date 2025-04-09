@@ -20,4 +20,4 @@ export/*.zip
 
 *.sdf
 help.rtf
-/gmlive_test/gmlive.dll
+#/gmlive_test/GMLive.dll

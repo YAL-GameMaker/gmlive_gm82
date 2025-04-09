@@ -39,12 +39,13 @@ class LiveStringReader {
 			if (char.IsWhiteSpace((char)c)) pos += 1; else break;
 		}
 	}
-	public string readIdent() {
+	public string readIdent(bool allowNumbers = false) {
 		if (pos >= length) return null;
 		var c = peek();
 		if (!(c == '_'
 			|| c >= 'a' && c <= 'z'
 			|| c >= 'A' && c <= 'Z'
+			|| (allowNumbers && c >= '0' && c <= '9')
 		)) return null;
 		var start = pos++;
 		while (loop) {

@@ -84,8 +84,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GMLive.cs" />
+    <Compile Include="LiveDelta.cs" />
+    <Compile Include="LiveEventPatcher.cs" />
     <Compile Include="LiveFile.cs" />
     <Compile Include="LiveFileEvent.cs" />
+    <Compile Include="LiveFileMoment.cs" />
     <Compile Include="LiveFileSection.cs" />
     <Compile Include="LiveScriptPatcher.cs" />
     <Compile Include="LiveStringReader.cs" />

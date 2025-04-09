@@ -5,15 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 class LiveScriptPatcher {
-	static Dictionary<string, string> mapper = new Dictionary<string, string> {
-		{ "argument", "live_argument" },
-		{ "argument_count", "live_argument_count" },
-		{ "argument0", "live_argument[0]" },
-		{ "argument1", "live_argument[1]" },
-		{ "argument2", "live_argument[2]" },
-		{ "argument3", "live_argument[3]" },
-		{ "live_call", "live_void" },
-	};
+	static Dictionary<string, string> mapper_init() {
+		var never = "live_never";
+		var mapper = new Dictionary<string, string> {
+			{ "argument", "global.__live_argument" },
+			{ "argument_count", "global.__live_argument_count" },
+			{ "return", "for ({}; true; exit) live_result =" },
+			// stub out live calls to avoid recursion in script-events
+			{ "live_call", never },
+			{ "live_call_ext", never },
+		};
+		for (var i = 0; i < 16; i += 1) {
+			mapper[$"argument{i}"] = $"global.__live_argument[{i}]";
+		}
+		return mapper;
+	}
+	static Dictionary<string, string> mapper = mapper_init();
 	public static string run(string code) {
 		var q = new LiveStringReader(code);
 		var result = new StringBuilder();
@@ -23,7 +30,6 @@ class LiveScriptPatcher {
 			switch (c) {
 				case '#':
 					if (q.isDefine()) {
-						var till = q.pos;
 						q.skipDefine();
 						q.skipLine();
 						continue;
@@ -64,6 +70,10 @@ class LiveScriptPatcher {
 		if (start < q.pos) {
 			result.Append(q.slice(start, q.pos));
 		}
-		return result.ToString();
+		var resCode = result.ToString();
+		if (resCode.Contains("\n") && !resCode.Contains("\r")) {
+			resCode = resCode.Replace("\n", "\r\n");
+		}
+		return resCode;
 	}
 }

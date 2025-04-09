@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 public class LiveFileEvent {
 	public string name;
 	public string code;
+	public bool exists;
 	//
 	public int eventType;
 	public int eventNumb;
@@ -44,11 +45,11 @@ public class LiveFileEvent {
 	}
 	//
 	public LiveDelta createDelta(string objName) {
-		var kind = eventType == 4 ? LiveDeltaKind.CollisionEvent : LiveDeltaKind.Event;
-		var d = new LiveDelta(objName, code, kind);
-		d.eventType = eventType;
-		d.eventNumb = eventNumb;
-		d.eventObject = eventObject;
-		return d;
+		var deltaCode = LiveEventPatcher.run(code);
+		var delta = new LiveDelta(objName, deltaCode, LiveDeltaKind.Event);
+		delta.eventType = eventType;
+		delta.eventNumb = eventNumb;
+		delta.eventObject = eventObject;
+		return delta;
 	}
 }
